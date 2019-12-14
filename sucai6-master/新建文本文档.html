@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>作业</title>
+	
+	<style type="text/css">
+		
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	.box{
+		width: 1200px;
+		height: 382px;
+		border: 0px;
+		margin: 50px auto;
+		position: relative;
+		overflow: hidden;
+	}
+  .slider{
+    width: 8400px;
+    position: absolute;
+    left: -1200px;
+    /* background: center; */
+  }
+  .slide{
+    width: 1200px;
+    overflow: hidden;
+    float: left;
+  }
+  .box>span{
+		display: block;
+		width: 30px; 
+		height: 50px;
+   	text-align: center;
+   	cursor: pointer;
+   	color:#ccc;
+   	top: 175px;
+   	line-height: 50px;
+   	background: rgb(255,0,0);
+   	font-size: 30px;
+   	position: absolute ;
+   	/* display: none; */
+   	opacity: 0;
+  }
+  div{
+   	display: block;
+  }
+  #left{
+   	left: 30px;
+  }
+  #right{
+   	right: 30px ;
+  }
+  .nav{
+   	position: absolute;
+   	left: 500px;
+   	bottom: 20px;
+  }
+	.nav>li{
+		float: left;
+		width: 20px;
+		height:  20px;
+		background: #ccc;
+		cursor: polnter;
+		margin: 0 10px;
+		border-radius: 50%;
+	}
+	.nav li.active{
+		background: red ;
+		color: #ccc;
+	}
+	li {
+    	list-style: none;
+    	text-align: center;
+	}
+
+	#scroll_div{
+		height: 20px;
+		background: lightgray;
+	}
+	#scroll_div div{
+		float: left;
+	}
+	.image{
+		padding-left: 135px;
+	}
+	.midShow{
+		width: 1000px;
+		height: 20px;
+		/* border: 1px black solid; */
+		position: relative;
+		overflow: hidden;
+	}
+	.txt{
+		width: 1300px;
+		font-size: 13px;
+		color: red;
+		/* border: 1px red solid; */
+	}
+	.txt1{
+		width: 500px;
+    font-size: 13px;
+    color: red;
+		/* border: 1px red solid; */
+	}
+	.long{
+		width: 1810px;
+		left: -435px;
+		height: 20px;
+		/* border: 1px black solid; */
+		position: absolute;
+		/* overflow: hidden; */
+	}
+	</style>
+	<script src="animate.js"></script>
+</head>
+<body>
+	<div id="scroll_div">
+		<div class="image">
+			<img src="images/a15.png">
+		</div>
+		<div class="midShow">
+			<div class="long">
+				<div class="txt">[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</div>
+				<div class="txt1">[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</div>
+			</div>
+		</div>
+	</div>
+	<div class="box" id= "box">
+    	<div class="slider" id="slider"><!-- 多两张图片，一张图一，一张图五 -->
+      		<div class="slide"><img src="images/b5.png" alt=""></div>
+      		<div class="slide"><img src="images/b1.png" alt=""></div>
+      		<div class="slide"><img src="images/b2.png" alt= ""></div>
+      		<div class="slide"><img src="images/b3.png" alt=""></div>
+      		<div class="slide"><img src="images/b4.png" alt=""></div>
+      		<div class="slide"><img src="images/b5.png" alt=""></div>
+      		<div class="slide"><img src="images/b1.png" alt=""></div>
+      	</div>
+      	<span id="left"> < </span>
+      	<span id="right"> > </span> <!-- 左右按钮 -->
+      	<ul class="nav" id="nav">
+      		<li class="active" >1</li>
+      		<li>2</li>
+      		<li>3</li>
+      		<li>4</li>
+      		<li>5</li>
+      	</ul>
+      </div>
+      <script type="text/javascript">
+		    var long=document.getElementsByClassName("long");
+		    setInterval(function(){
+           var left=getStyle(long[0],"left");
+           long[0].style.left=(parseInt(left)-1)+"px";
+           // console.log(left);
+           if(getStyle(long[0],"left")=="-1700px"){
+           		long[0].style.left=-435+"px";
+           }
+        }
+			,30);
+      	
+      	var box = document.getElementById('box');
+      	var oNavlist = document.getElementById('nav').children;
+      	var slider = document.getElementById('slider');
+      	var left = document.getElementById('left');
+      	var right = document.getElementById('right');
+      	var index = 1;
+      	var timer;
+      	var  isMoving = false;
+      	function next(){//右按钮轮播下一张的函数
+      		if(isMoving){
+      			return;
+      		}
+      		isMoving=true;
+			    index++;
+			    navChange();
+			    animate(slider, {left:-1200*index}, function(){
+				    if(index == 6){
+					   slider.style.left = "-1200px";
+					   index = 1;
+				    }
+				    isMoving = false;
+			     });
+		    }
+		    function prev(){//左按钮轮播下一张的函数
+			     if(isMoving){
+				      return;
+			     }
+      		isMoving=true;
+			    index--;
+			    navChange();
+			    animate(slider, {left:-1200*index}, function(){
+				    if(index == 0){
+					  slider.style.left = "-6000px";
+					  index = 5;
+				    }
+				    isMoving = false;
+			    });
+		    }
+		    var timer = setInterval(next, 3000) ;
+      
+		    //鼠标划入清除定时器
+      	box.onmouseover = function(){
+      		animate(left,{opacity:50});
+      		animate(right,{opacity:50});
+      		clearInterval(timer);
+      	}
+      	//鼠标划出开定时器
+
+      	box.onmouseout = function(){
+			     animate(left,{opacity:0});
+			     animate(right,{opacity:0});
+			     timer = setInterval(next, 3000);
+		    }
+
+	     	right.onclick = next;//右按钮
+	     	left.onclick = prev;//左按钮
+		     //小按钮点击事件
+      	for( var i=0;i<oNavlist.length;i++ ){
+      		oNavlist[i]. index = i;
+		    	oNavlist[i].onclick = function(){
+			   	  index = this.index+1;
+            navChange();
+      		  animate(slider, {left:-1200*index});
+      		}
+      	}
+      	//小按钮背景色切换
+      	function navChange(){
+      		for( var i=0;i<oNavlist.length;i++ ){
+      			oNavlist[i].className='';
+      		}
+      		if(index===6){
+      			oNavlist[0].className = 'active';
+      		}else if(index===0){
+      			oNavlist[4].className = 'active';
+      		}
+      		else{
+      			oNavlist[index-1].className = 'active';
+      		}
+      		
+      	}
+      </script>
+</body>
+</html>
+
+
+
+
+
+
